@@ -1,0 +1,52 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id              Int       @id @default(autoincrement())
+  username        String    @unique
+  email           String    @unique
+  password_hash   String
+  posts           Post[]
+  comments        Comment[]
+}
+
+model Post {
+  id          Int       @id @default(autoincrement())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int       // Chiave esterna per User
+  image_url   String
+  caption     String?
+  comments    Comment[]
+  hashtags    Hashtag[] @relation("PostHashtag")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  postHashtags PostHashtag[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int      // Chiave esterna per Post
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      // Chiave esterna per User
+}
+
+model Hashtag {
+  id    Int    @id @default(autoincrement())
+  tag   String @unique
+  posts Post[] @relation("PostHashtag")
+  postHashtags PostHashtag[]
+}
+
+model PostHashtag {
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int      // Chiave esterna per Post
+  hashtag   Hashtag  @relation(fields: [hashtagId], references: [id])
+  hashtagId Int      // Chiave esterna per Hashtag
+
+  @@id([postId, hashtagId])
+}
