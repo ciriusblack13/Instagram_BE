@@ -6,7 +6,7 @@ const router =  express.Router();
 const prisma = new PrismaClient();
 
 // Create post
-router.post('/post', requireLogin, async (req, res) => {
+router.post('/', requireLogin, async (req, res) => {
     try {
         const { userId, image_url, caption} = req.body;
         const newPost = await prisma.post.create({
@@ -24,7 +24,7 @@ router.post('/post', requireLogin, async (req, res) => {
 
 
 // View a single post
-router.get('/post/:id', requireLogin, async (req, res) => {
+router.get('/:id', requireLogin, async (req, res) => {
     try {
         const { id } = req.params;
         const post = await prisma.post.findUnique({
@@ -50,7 +50,7 @@ router.get('/post/:id', requireLogin, async (req, res) => {
 });
 
 // Delete a single post
-router.delete('/post/:id', requireLogin, async (req, res) => {
+router.delete('/:id', requireLogin, async (req, res) => {
     try {
         const { id } = req.params;
         await prisma.post.delete({

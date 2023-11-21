@@ -86,8 +86,5 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/home", requireLogin, async (req, res) => {
-  res.send('Benvenuto nella tua homepage')
-})
 
 export default router;

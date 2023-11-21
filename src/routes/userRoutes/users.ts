@@ -5,6 +5,13 @@ import requireLogin from "../../middlewares/requireLogin";
 const router = express.Router();
 const prisma = new PrismaClient();
 
+
+// View homepage
+router.get("/home", requireLogin, async (req, res) => {
+  res.send("Benvenuto nella tua homepage");
+});
+
+
 // View all users
 router.get("/users", requireLogin, async (req, res) => {
   try {
@@ -16,7 +23,7 @@ router.get("/users", requireLogin, async (req, res) => {
 });
 
 // View profile
-router.get("/user/:id", requireLogin, async (req, res) => {
+router.get("/:id", requireLogin, async (req, res) => {
   try {
     const { id } = req.params;
     const user = await prisma.user.findUnique({
@@ -34,7 +41,7 @@ router.get("/user/:id", requireLogin, async (req, res) => {
 });
 
 // Modify profile
-router.put("/user/:id", requireLogin, async (req, res) => {
+router.put("/:id", requireLogin, async (req, res) => {
   try {
     const { id } = req.params;
     const { username, email } = req.body;
@@ -54,7 +61,7 @@ router.put("/user/:id", requireLogin, async (req, res) => {
 });
 
 // Delete user
-router.delete("/user/:id", requireLogin, async (req, res) => {
+router.delete("/:id", requireLogin, async (req, res) => {
   try {
     const { id } = req.params;
 

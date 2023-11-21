@@ -6,7 +6,7 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 // Create hastag
-router.post('/hastag', requireLogin, async (req, res) => {
+router.post('/', requireLogin, async (req, res) => {
     try {
         const { tag } = req.body;
 
@@ -25,7 +25,7 @@ router.post('/hastag', requireLogin, async (req, res) => {
 })
 
 // Get a post from hastag
-router.get('/hastag/:tag/posts', requireLogin, async (req, res) => {
+router.get('/:tag/posts', requireLogin, async (req, res) => {
     try {
         const { tag } = req.params;
         const posts = await prisma.hashtag.findUnique({
