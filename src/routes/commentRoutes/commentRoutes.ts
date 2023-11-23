@@ -1,12 +1,13 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
+import requireAdmin from '../../middlewares/requireAdmin';
 import requireLogin from '../../middlewares/requireLogin';
 
 const router = express.Router();
 const prisma = new PrismaClient();
 
 // Add comment
-router.post('/:postId/comment', async (req, res) => {
+router.post('/:postId/comment', requireLogin, async (req, res) => {
     try {
         const { postId } = req.params;
         const { userId, text } = req.body;
@@ -36,7 +37,7 @@ router.post('/:postId/comment', async (req, res) => {
 });
 
 // View post's comments
-router.get('/:postId/comments', async (req, res) => {
+router.get('/:postId/comments', requireLogin, async (req, res) => {
     try {
         const { postId } = req.params;
         const comments = await prisma.comment.findMany({
@@ -50,7 +51,7 @@ router.get('/:postId/comments', async (req, res) => {
 });
 
 // Delete comment
-router.delete('/:id/delete', async (req, res) => {
+router.delete('/:id/delete', requireAdmin, async (req, res) => {
     try {
         const { id } = req.params;
         const userId = req.user?.userId;

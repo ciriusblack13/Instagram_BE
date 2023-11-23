@@ -1,5 +1,6 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import requireAdmin from "../../middlewares/requireAdmin";
 import requireLogin from "../../middlewares/requireLogin";
 
 const router = express.Router();
@@ -17,7 +18,7 @@ router.get("/users", requireLogin, async (req, res) => {
 });
 
 // View profile
-router.get("/:id", requireLogin, async (req, res) => {
+router.get("/:id/view", requireLogin, async (req, res) => {
   try {
     const { id } = req.params;
     const user = await prisma.user.findUnique({
@@ -35,7 +36,7 @@ router.get("/:id", requireLogin, async (req, res) => {
 });
 
 // Modify profile
-router.put("/:id", requireLogin, async (req, res) => {
+router.put("/:id/modify", requireLogin || requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { username, email } = req.body;
@@ -55,7 +56,7 @@ router.put("/:id", requireLogin, async (req, res) => {
 });
 
 // Delete user
-router.delete("/:id", requireLogin, async (req, res) => {
+router.delete("/:id/delete", requireLogin, requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
 
