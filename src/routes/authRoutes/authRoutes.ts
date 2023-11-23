@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
-import requireLogin from "../../middlewares/requireLogin";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -76,7 +75,7 @@ router.post("/login", async (req, res) => {
       return;
     }
 
-    const token = jwt.sign({ userId: user.id }, JWT, { expiresIn: '10m' });
+    const token = jwt.sign({ userId: user.id }, JWT, { expiresIn: '1h' });
     res.json({ token });
 
     res.status(200).send("Accesso effettuato con successo");

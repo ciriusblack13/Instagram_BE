@@ -6,12 +6,6 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 
-// View homepage
-router.get("/home", requireLogin, async (req, res) => {
-  res.send("Benvenuto nella tua homepage");
-});
-
-
 // View all users
 router.get("/users", requireLogin, async (req, res) => {
   try {

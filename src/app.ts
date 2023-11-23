@@ -15,12 +15,8 @@ app.use('/post', postRouter);
 app.use('/hashtag', hashtagRouter);
 app.use('/comment', commetRouter);
 
-const PORT = 3000;
+const PORT = 8080;
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 })
-
-app.get('/', (req, res) => {
-    res.send('Benvenuto nel server Express!');
-  })
